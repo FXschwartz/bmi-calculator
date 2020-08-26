@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'constants.dart';
 import 'icon_content.dart';
 import 'reusable_card.dart';
-
-const Color activeCardColor = Color(0xFF1D1E33);
-const Color inactiveCardColor = Color(0xFF111328);
 
 enum Gender { male, female }
 
@@ -16,6 +14,7 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
+  int height = 55;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +23,7 @@ class _InputPageState extends State<InputPage> {
         title: Text('BMI CALCULATOR'),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
@@ -31,8 +31,8 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: ReusableCard(
                     color: selectedGender == Gender.male
-                        ? activeCardColor
-                        : inactiveCardColor,
+                        ? kActiveCardColor
+                        : kInactiveCardColor,
                     cardChild: IconContent(
                       icon: FontAwesomeIcons.mars,
                       text: 'MALE',
@@ -47,8 +47,8 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: ReusableCard(
                     color: selectedGender == Gender.female
-                        ? activeCardColor
-                        : inactiveCardColor,
+                        ? kActiveCardColor
+                        : kInactiveCardColor,
                     cardChild: IconContent(
                       icon: FontAwesomeIcons.venus,
                       text: 'FEMALE',
@@ -65,7 +65,52 @@ class _InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: ReusableCard(
-              color: activeCardColor,
+              color: kActiveCardColor,
+              cardChild: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Height',
+                    style: kLabelTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        height.toString(),
+                        style: kNumberTextStyle,
+                      ),
+                      Text(
+                        'in',
+                        style: kLabelTextStyle,
+                      ),
+                    ],
+                  ),
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                        thumbShape:
+                            RoundSliderThumbShape(enabledThumbRadius: 16),
+                        overlayShape:
+                            RoundSliderOverlayShape(overlayRadius: 30),
+                        thumbColor: Color(0xFFEB1555),
+                        overlayColor: Color(0x29EB1555),
+                        activeTrackColor: Colors.white,
+                        inactiveTrackColor: Color(0xFF8D8E98)),
+                    child: Slider(
+                      value: height.toDouble(),
+                      min: 50,
+                      max: 80,
+                      onChanged: (double newValue) {
+                        setState(() {
+                          height = newValue.round();
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(
@@ -73,12 +118,12 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: ReusableCard(
-                    color: activeCardColor,
+                    color: kActiveCardColor,
                   ),
                 ),
                 Expanded(
                   child: ReusableCard(
-                    color: activeCardColor,
+                    color: kActiveCardColor,
                   ),
                 ),
               ],
