@@ -17,6 +17,7 @@ class _InputPageState extends State<InputPage> {
   Gender selectedGender;
   int height = 55;
   int weight = 190;
+  int age = 21;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,13 +132,26 @@ class _InputPageState extends State<InputPage> {
                           style: kNumberTextStyle,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             RoundIconButton(
-                              icon: FontAwesomeIcons.plus,
+                              icon: FontAwesomeIcons.minus,
+                              onPressFunction: () {
+                                setState(() {
+                                  weight--;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: 10.0,
                             ),
                             RoundIconButton(
-                              icon: FontAwesomeIcons.minus,
+                              icon: FontAwesomeIcons.plus,
+                              onPressFunction: () {
+                                setState(() {
+                                  weight++;
+                                });
+                              },
                             ),
                           ],
                         ),
@@ -148,6 +162,43 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: ReusableCard(
                     color: kActiveCardColor,
+                    cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'AGE',
+                          style: kLabelTextStyle,
+                        ),
+                        Text(
+                          age.toString(),
+                          style: kNumberTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.minus,
+                              onPressFunction: () {
+                                setState(() {
+                                  age--;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            RoundIconButton(
+                              icon: FontAwesomeIcons.plus,
+                              onPressFunction: () {
+                                setState(() {
+                                  age++;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -158,6 +209,15 @@ class _InputPageState extends State<InputPage> {
             width: double.infinity,
             height: 80.0,
             color: Color(0xFFEB1555),
+            child: Center(
+              child: Text(
+                'CALCULATE YOUR BMI',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -166,14 +226,16 @@ class _InputPageState extends State<InputPage> {
 }
 
 class RoundIconButton extends StatelessWidget {
-  RoundIconButton({this.icon});
+  RoundIconButton({@required this.icon, @required this.onPressFunction});
 
+  final Function onPressFunction;
   final IconData icon;
+
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
       shape: CircleBorder(),
-      onPressed: () {},
+      onPressed: onPressFunction,
       fillColor: Color(0xFF4C4F5E),
       constraints: BoxConstraints.tightFor(
         width: 56.0,
